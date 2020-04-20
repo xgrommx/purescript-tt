@@ -1,0 +1,23 @@
+{
+  "name": "purescript-tt",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "output"
+  ],
+  "dependencies": {
+    "purescript-prelude": "^4.1.1",
+    "purescript-console": "^4.4.0",
+    "purescript-effect": "^2.0.1",
+    "purescript-variant": "^6.0.1",
+    "purescript-matryoshka": "^0.4.0",
+    "purescript-profunctor-lenses": "^6.3.0",
+    "purescript-type-equality": "^3.0.0",
+    "purescript-generics-rep": "^6.1.1",
+    "purescript-typelevel-eval": "^0.4.0"
+  },
+  "devDependencies": {
+    "purescript-psci-support": "^4.0.0"
+  }
+}
