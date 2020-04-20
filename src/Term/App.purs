@@ -2,6 +2,9 @@ module Term.App where
 
 import Prelude
 
+import Algebra.BoundVars (class BoundVarsAlg)
+import Algebra.FreeVars (class FreeVarsAlg)
+import Algebra.Show (class ShowAlg)
 import Data.Functor.Mu (Mu)
 import Data.Functor.Variant (VariantF)
 import Data.Lens (Prism', prism', re, review)
@@ -29,10 +32,16 @@ app x y = review _AppF (Tuple x y)
 
 derive instance functorAppF ∷ Functor AppF
 
--- just for debug
+-- algebras
 
-instance showAppF :: Show a => Show (AppF a) where
-  show (AppF f a) = "(" <> show f <> " " <> show a <> ")"
+instance showAlgAppF :: ShowAlg AppF where
+  showAlg (AppF f a) = "(" <> f <> ")(" <> a <> ")"
+
+instance freeVarsAlgAppF :: FreeVarsAlg AppF where
+  freeVarsAlg (AppF f a) = f <> a
+
+instance boundVarsAlgAppF :: BoundVarsAlg AppF where
+  boundVarsAlg (AppF f a) = f <> a
 
 -- classy prism
 

@@ -2,6 +2,9 @@ module Term.Var where
 
 import Prelude
 
+import Algebra.BoundVars (class BoundVarsAlg, boundVarsAlg)
+import Algebra.FreeVars (class FreeVarsAlg, freeVarsAlg)
+import Algebra.Show (class ShowAlg)
 import Data.Functor.Mu (Mu)
 import Data.Functor.Variant (VariantF)
 import Data.Functor.Variant as VF
@@ -38,10 +41,16 @@ var = review _VarF
 
 derive instance functorVarF ∷ Functor VarF
 
--- just for debug
+-- algebras
 
-instance showVarF :: Show a => Show (VarF a) where
-  show (VarF a) = show a
+instance showAlgVarF :: ShowAlg VarF where
+  showAlg (VarF a) = a
+
+instance freeVarsAlgVarF :: FreeVarsAlg VarF where
+  freeVarsAlg (VarF a) = [a]
+
+instance boundVarsAlgVarF :: BoundVarsAlg VarF where
+  boundVarsAlg (VarF a) = []
 
 -- instance eqVarF :: Eq a => Eq (VarF a) where
 --   eq e1 e2 = genericEq e1 e2

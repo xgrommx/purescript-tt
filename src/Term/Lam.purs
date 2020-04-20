@@ -2,6 +2,11 @@ module Term.Lam where
 
 import Prelude
 
+import Algebra.BoundVars (class BoundVarsAlg)
+import Algebra.FreeVars (class FreeVarsAlg, freeVarsAlg)
+import Algebra.Show (class ShowAlg)
+import Data.Array ((:))
+import Data.Array as A
 import Data.Functor.Mu (Mu)
 import Data.Functor.Variant (VariantF)
 import Data.Lens (Prism', prism', re, review)
@@ -32,10 +37,16 @@ lam x y = review _LamF (Tuple x y)
 
 derive instance functorLamF ∷ Functor (LamF tf)
 
--- just for debug
+-- algebras
 
-instance showLamF :: (Eval (tf String) b, Show b, Show a) => Show (LamF tf a) where
-  show (LamF t b) = "\\" <> show (TF.to t) <> "." <> show b
+instance showAlgLamF :: Eval (tf String) String => ShowAlg (LamF tf) where
+  showAlg (LamF t b) = "\\" <> TF.to t <> "." <> b
+
+instance freeVarsAlgLamF :: Eval (tf String) String => FreeVarsAlg (LamF tf) where
+  freeVarsAlg (LamF t b) = A.filter (\t' -> t' /= TF.to t) b
+
+instance boundVarsAlgLamF :: Eval (tf String) String => BoundVarsAlg (LamF tf) where
+  boundVarsAlg (LamF t b) = TF.to t : b
 
 -- classy prism
 
